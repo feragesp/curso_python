@@ -1,6 +1,6 @@
 # IDENTIDAD: "is" => TRUE si X e Y son el mismo objeto
 # IDENTIDAD: "is not" => TRUE si X e Y NO son el mismo objeto
-
+# Hola Mundo
 help(id)
 
 text1 = input("Introduce texto ")
