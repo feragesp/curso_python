@@ -10,12 +10,12 @@ class Coche:
         vel_max - int velocidad maxima del coche km/h
         con_medio - float consumo medio del coche en l/100km
         """
-        self.marca = marca
-        self.modelo = modelo
-        self.potencia = potencia
-        self.vel_max = vel_max
-        self.con_medio = con_medio
-        self.km_actuales = 0
+        self._marca = marca
+        self._modelo = modelo
+        self._potencia = potencia
+        self._vel_max = vel_max
+        self._con_medio = con_medio
+        self._km_actuales = 0
 
     def especificaciones(self):
         """Muestra las especificaciones del coche"""
@@ -27,16 +27,41 @@ class Coche:
               "\nVelocidad Máxima: {} km/h".format(self.vel_max),
               "\nConsumo Medio: {} l/100km".format(self.con_medio))"""
         
-        print(f"Marca: {self.marca}\
-              \nModelo: {self.modelo}\
-              \nPotencia: {self.potencia} cv\
-              \nVelocidad Máxima: {self.vel_max} km/h\
-              \nConsumo Medio: {self.con_medio} l/100km\
-              \nKilometros Actuales: {self.km_actuales} km")
+        print(f"Marca: {self._marca}\
+              \nModelo: {self._modelo}\
+              \nPotencia: {self._potencia} cv\
+              \nVelocidad Máxima: {self._vel_max} km/h\
+              \nConsumo Medio: {self._con_medio} l/100km\
+              \nKilometros Actuales: {self._km_actuales} km")
+    
+    def actualizar_kilometros(self, kilometros_nuevos): # SETTER
+        """Actualizar los kilometros"""
+        if kilometros_nuevos > self._km_actuales:
+            self._km_actuales = kilometros_nuevos
+        else:
+            print("ERROR: No se puede ir atrás en kilometraje")
+
+    def consumo_total(self): # GETTER
+        "Muestra el consumo real del coche desde el kilometro 0"
+        consumo_total = (self._km_actuales / 100) * self._con_medio
+        print(f"El consumo total del coche es de {consumo_total} litros")
 
 mercedes = Coche("Mercedes", "C200", 200, 240, 7.5)
 mercedes.especificaciones()
 # help(Coche)
 print("-"*30)
 
-mercedes.km_actuales = 100
+"""mercedes.km_actuales = 45_000
+mercedes.especificaciones()
+print("-"*30)"""
+
+mercedes.actualizar_kilometros(-10)
+print("-"*30)
+# mercedes.km_actuales = -45_000
+mercedes.especificaciones()
+print("-"*30)
+
+mercedes.actualizar_kilometros(153_000)
+mercedes.especificaciones()
+mercedes.consumo_total()
+print("-"*30)
