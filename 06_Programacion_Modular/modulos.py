@@ -12,10 +12,10 @@ import mi_modulo
 import sys
 
 # PYTHONPATH
-var_sys = sys.path.append("c:/Users/Matins/python/02_Operadores")
-import var_sys
+# var_sys = sys.path.append("c:/Users/Matins/python/02_Operadores")
+# import var_sys
 
-print(var_sys.num1)
+# print(var_sys.num1)
 
 print(sys.path)
 var = mi_modulo.lista
