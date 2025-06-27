@@ -51,3 +51,6 @@ while i < 9:
     print("i:",i)
 print(cad4)
     
+print(int("3a", base=16))
+print(int("4d", base=16))
+print(int("ff", base=16))
