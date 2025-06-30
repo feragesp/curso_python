@@ -1,6 +1,8 @@
 """Trabajando con Strings"""
 
 string = "Mi texto"
+string = "HOLAAAA ME HE MODIFICADO"
+print(string)
 # print(dir(string))
 
 # Transformaciones
@@ -78,3 +80,4 @@ print(texto6)
 
 texto7 = "10"
 print(texto7.zfill(8))
+
