@@ -7,3 +7,6 @@ COLUMNS = 7
 EMPTY = "."
 P_PLAYER = "X"
 P_CPU = "0"
+
+# Nivel
+CPU_LEVEL = ["easy", "normal", "hard"]
