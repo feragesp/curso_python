@@ -1,13 +1,15 @@
+# ai.py
+
 import random
 from board import Board
 from config import ROWS, COLUMNS, EMPTY
 
 
 def board_copy(board):
-    return [row[:] for row in board.grid]
+    return [row[:] for row in board._grid]
 
 def cpu_easy(board):
-    return random.choice(board.check_column())
+    return random.choice(board.check_columns())
 
 def cpu_normal(board, cpu_piece, human_piece):
     """
@@ -16,7 +18,7 @@ def cpu_normal(board, cpu_piece, human_piece):
     # Si no aplica las dos anteriores => cpu_easy
     """
     # Ganar en el siguiente turno
-    for column in board.check_column():
+    for column in board.check_columns():
         """
         Recorre las columnas validas
         Simula si puede ganar para columna
@@ -29,7 +31,7 @@ def cpu_normal(board, cpu_piece, human_piece):
             return column
     
     # ¿Puede ganar el jugador?
-    for column in board.check_column():
+    for column in board.check_columns():
         """
         Simula si el humano pone una ficha en cada columna
         Verifica si el humana gana poniendo la ficha en cada columna
@@ -50,7 +52,7 @@ def cpu_hard(board, cpu_piece, human_piece):
     """
     # Inicializa una lista con tuplas de (Puntuacion, columna)
     best_pos = []
-    for column in board.check_column():
+    for column in board.check_columns():
         copy_board = Board()
         copy_board._grid  = board_copy(board)
         copy_board.insert_piece(column, cpu_piece)
@@ -62,45 +64,53 @@ def cpu_hard(board, cpu_piece, human_piece):
         Evalua la jugada
         score(copy_board, cpu_piece) # Mide lo buena que es la jugada
         score(copy_board, human_piece) # Mide si mi jugada es buena para el humano
-        Resta de los dos score
+        scores = Resta de los dos score
         """
+        scores = score(copy_board, cpu_piece) - score(copy_board, human_piece)
+
+        best_pos.append((scores, column))
+        
+        if best_pos:
+            best_pos.sort(reverse=True)
+            return best_pos[0][1]
+        
+        # Caso de que todo fallara
+        return cpu_easy(board)
+
+
 
 def score(board, piece):
     points = 0
-    grid = board.grid
+    grid = board._grid
 
     def evaluator(plays):
         """
         Evalua una lista de 4 jugadas
         asigna una puntuación dependiendo de fichas propias y espacios vacios
         """
-        if plays.count(piece) == 4:
-            return 100
-        elif plays.count(piece) == 3 and plays.count(EMPTY) == 1:
-            return 10
-        elif plays.count(piece) == 2 and plays.count(EMPTY) == 2:
-            return 5
-        else:
-            return 0
+        if plays.count(piece) == 4: return 100
+        elif plays.count(piece) == 3 and plays.count(EMPTY) == 1: return 5
+        elif plays.count(piece) == 2 and plays.count(EMPTY) == 2: return 2
+        return 0
         
-        # Horizontal (izquierda - derecha)
-        for row in range(ROWS):
-            for column in range(COLUMNS - 3):
-                points += evaluator(grid[row][column:column + 4])
+    # Horizontal (izquierda - derecha)
+    for row in range(ROWS):
+        for column in range(COLUMNS - 3):
+            points += evaluator(grid[row][column:column + 4])
 
-        # Vertical (Arriba - Abajo)
-        for column in range(COLUMNS):
-            for row in range(ROWS - 3):
-                points += evaluator([grid[row + i][column] for i in range(4)])
-
-        # Diagonal \
+    # Vertical (Arriba - Abajo)
+    for column in range(COLUMNS):
         for row in range(ROWS - 3):
-            for column in (COLUMNS - 3):
-                points += evaluator([grid[row + i][column + i] for i in range(4)])
-        
-        # Diagonal /
-        for row in (3, ROWS):
-            for column in range(COLUMNS - 3):
-                points += evaluator([grid[row - i][column + i] for i in range(4)])
+            points += evaluator([grid[row + i][column] for i in range(4)])
 
-        return points
+    # Diagonal \
+    for row in range(ROWS - 3):
+        for column in range(COLUMNS - 3):
+            points += evaluator([grid[row + i][column + i] for i in range(4)])
+    
+    # Diagonal /
+    for row in range(3, ROWS):
+        for column in range(COLUMNS - 3):
+            points += evaluator([grid[row - i][column + i] for i in range(4)])
+
+    return points

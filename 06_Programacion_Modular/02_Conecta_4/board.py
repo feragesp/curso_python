@@ -8,6 +8,8 @@ from config import (
     P_CPU,
 )
 
+from utils import terminal_clean
+
 class Board:
     """
     Constructor de tablero:
@@ -17,7 +19,7 @@ class Board:
     - revisar si lleno
     - comprobar victoria
     """
-    
+
     def __init__(self):
         # self._grid = [
         #     [
@@ -33,6 +35,7 @@ class Board:
 
     def print_board(self):
         # Crear funcion utils limpiar pantalla
+        terminal_clean()
         print(" " + " ".join(str(i) for i in range(COLUMNS))) # Imprime en string la iteracion de las columnas
         
         for row in self._grid: # Imprime la lista sin los corchetes y añade un espacio al inicio
@@ -121,22 +124,26 @@ class Board:
                 # if con: # Si coincidencia de pieza == TRUE
                 #     return True # Devuelve True
                 
-                if all(grid[row][column + i] == piece for i in range(4)): return True
+                if all(grid[row][column + i] == piece for i in range(4)): 
+                    return True
 
         # Comprobacion en vertical (|)
         for row in range(ROWS - 3):
             for column in range(COLUMNS):
-                if all(grid[row + i][column] == piece for i in range(4)): return True
+                if all(grid[row + i][column] == piece for i in range(4)): 
+                    return True
         
         # Comprobacion en diagonal descendente (\)
         for row in range(ROWS - 3):
             for column in range(COLUMNS - 3):
-                if all(grid[row + i][column + i] == piece for i in range(4)): return True
+                if all(grid[row + i][column + i] == piece for i in range(4)): 
+                    return True
         
         # Comprobacion en diagonal ascendete (/)
         for row in range(3, ROWS):
             for column in range(COLUMNS - 3):
-                if all(grid[row - i][column + i] == piece for i in range(4)): return True
+                if all(grid[row - i][column + i] == piece for i in range(4)): 
+                    return True
 
         return False
 

@@ -1,7 +1,7 @@
 # player.py
 
 from config import P_CPU, P_PLAYER
-# from ai import
+from ai import cpu_easy, cpu_normal, cpu_hard
 
 class Player:
     """
@@ -53,12 +53,11 @@ class CPUPlayer(Player):
     def choose_column(self, board):
         input(f"CPU ({self._piece}) [{self._dificulty}]... Pulsa ENTER")
         if self._dificulty == "easy":
-            pass
-            # return cpu_easy(board)
+            return cpu_easy(board)
         elif self._dificulty == "normal":
-            pass
+            return cpu_normal(board, self._piece, self._piece_human)
         else:
-            pass
+            return cpu_hard(board, self._piece, self._piece_human)
 
     
 

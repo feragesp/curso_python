@@ -3,10 +3,13 @@
 from board import Board
 from player import HumanPlayer, CPUPlayer
 from config import P_CPU, P_PLAYER, CPU_LEVEL
+from utils import terminal_clean
 
 class Game:
+    
+    terminal_clean()
+    
     def __init__(self):
-        # clean_terminal()
         self._board = Board()
         self._human = HumanPlayer(input("Tu nombre: "), P_PLAYER)
         self._dificulty = self.choose_dificulty()
@@ -34,7 +37,7 @@ class Game:
             column = actual.choose_column(self._board)
             self._board.insert_piece(column, actual._piece)
 
-            if self._board.check_win(self._board):
+            if self._board.check_win(actual._piece):
                 self._board.print_board()
                 print(f"{actual._name} ({actual._piece}) WIN")
                 print(f"Se ha jugado: {self._shift} turnos")
