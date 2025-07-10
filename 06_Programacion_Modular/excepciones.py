@@ -34,3 +34,22 @@ if __name__ == "__main__":
     Permite verificar en un punto determinado que el programa este funcionando
     'assert'
     """
+    # passwd = input("Introduce tu contraseña de mas de 8 caracteres: ")
+    # print(passwd)
+    # assert len(passwd) > 8 and passwd.isdigit(), "La contraseña es menor de 8"
+
+    """
+    Finally
+    Sentencia que se usa para 'limpiar' una ejecucion en excepcion
+    """
+
+    try:
+        print(variable3)
+    except NameError:
+        print("La variable no está definida")
+        variable3 = "Hola Mundo"
+        print(globals())
+        
+    del variable3
+    print(globals())
+    
