@@ -28,7 +28,17 @@ document.querySelectorAll('.btn').forEach(button => {
 
 //Funcion de conexion Python y JavaScript
 function sendToServer(expression) {
-
+    fetch('/calculate', {
+        method: POST,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ expression }) //({"expresion": 7*6 })
+    })
+    .then(response => response.json()) //{"result": 42 }
+    .then(data => {
+        display.textContent = data.result;
+    })
 }
 
 
