@@ -28,17 +28,28 @@ document.querySelectorAll('.btn').forEach(button => {
 
 //Funcion de conexion Python y JavaScript
 function sendToServer(expression) {
-    fetch('/calculate', {
-        method: POST,
+    //Hace peticiones HTTP desde JS
+    fetch('/calculate', { // Ruta del server que espera la peticion
+        method: 'POST', //Metodo de envío
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json' // Dice al server que tipo de archivo vamos a trabajar
         },
+        //Construye la expresion
         body: JSON.stringify({ expression }) //({"expresion": 7*6 })
     })
+    //Respuesta del servidor
     .then(response => response.json()) //{"result": 42 }
+    //Maneja el resultado
     .then(data => {
-        display.textContent = data.result;
+        display.textContent = data.result; // Muestra el resultado por pantalla
+        currentInput = data.result.toString(); // Guarda el resultado para seguir calculando
+        justCalculated = true; // Acabamos de ejecutar
     })
+    //Captura el error y lo saca por consola
+    .catch(err => { 
+        display.textContent = 'Error';
+        console.error(err);
+    });
 }
 
 
